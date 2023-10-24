@@ -4,6 +4,7 @@ const app = Vue.createApp({
     return {
       playerHealth: 100,
       monsterHealth: 100,
+      specialAttackbutton: 0
     }
   },
 
@@ -15,12 +16,19 @@ const app = Vue.createApp({
 
     playerBarStyle() {
       return {width: this.playerHealth + '%'}
+    },
+
+    specialAttackControl() {
+      return (this.specialAttackbutton % 3 !== 0)
     }
-    
   },
 
   methods: {
     attackMonster() {
+
+      this.specialAttackbutton++
+
+      console.log(this.specialAttackbutton)
       // Math.random gives a random value between 0 and 1 , but we need the value between 5 and 12 so we multiply it by (12-5)
       // Math.floor it return a decimal number
 
@@ -50,6 +58,29 @@ const app = Vue.createApp({
       console.log('Monster Health : ', this.monsterHealth)
       console.log('Player Health : ', this.playerHealth)
     },
+
+
+    specialAttackMonster() {
+
+      this.specialAttackbutton++
+      const specialAttack = Math.floor(Math.random() * 5) + 10
+
+      this.monsterHealth -= specialAttack
+
+      if (this.playerHealth > 50){
+        this.specialAttackPlayer()
+      } else {
+        this.attackPlayer()
+      }
+
+    },
+
+    specialAttackPlayer() {
+
+      const specialAttack = Math.floor(Math.random() * 5) + 10
+      this.playerHealth -= specialAttack
+
+    }
 
   }
 })
